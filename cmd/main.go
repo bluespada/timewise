@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/bluespada/timewise/internal/utils/helper"
 	"github.com/bluespada/timewise/pkg/route"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
@@ -10,6 +11,10 @@ import (
 
 func main() {
 	app := fiber.New(fiber.Config{})
+	viteAssets := helper.GetViteMetadata("./dist/manifest.json")
+	if len(viteAssets) > 0 {
+		println("vite assets not found")
+	}
 	app.Use(logger.New())
 	app.Use(cors.New())
 	app.Use(compress.New())
