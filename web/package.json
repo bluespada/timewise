@@ -1,0 +1,11 @@
+{
+    "name": "timewise-web",
+    "description": "Web Interface for Time Wise",
+    "author": "bluespada <pentingmain@gmail.com>",
+    "scripts": {
+        "dev": "vite dev",
+        "build": "vite build",
+        "start": "vite start",
+        "preview": "vite preview"
+    }
+}
