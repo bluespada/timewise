@@ -7,9 +7,13 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	godotenv.Load()
+	// parsing sysmtem env to here
+
 	app := fiber.New(fiber.Config{})
 	viteAssets := helper.GetViteMetadata("./dist/manifest.json")
 	if len(viteAssets) > 0 {
