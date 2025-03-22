@@ -2,22 +2,18 @@ package route
 
 import (
 	"github.com/bluespada/timewise/internal/utils/types"
-	cauth "github.com/bluespada/timewise/pkg/controller/auth"
 	"github.com/gofiber/fiber/v2"
 )
 
 func RegisterRoutes(app *fiber.App) {
 
 	api := app.Group("/api")
-	public := api.Group("/public")
-	auth := public.Group("/auth")
 
-	// Authentication routers
-	auth.Post("/signin", cauth.NewAuthController().PostAuthenticationSignIn)
-	auth.Post("/signout", cauth.NewAuthController().PostAuthenticationSignOut)
-	auth.Post("/signup", cauth.NewAuthController().PostAuthenticationSignUp)
-	auth.Get("/session", cauth.NewAuthController().GetSession)
+	// asignning public and private routing
+	registerPublic(api.Group("/public"))
+	registerPrivate(api.Group("/private"))
 
+	// handle index routing
 	api.All("/", func(ctx *fiber.Ctx) error {
 		res := types.NewApiResponse()
 		res.Message = "Timewise API"
@@ -25,5 +21,13 @@ func RegisterRoutes(app *fiber.App) {
 			"version": "1.0.0",
 		}
 		return ctx.JSON(res)
+	})
+
+	// set not found pages
+	api.All("*", func(c *fiber.Ctx) error {
+		res := types.NewApiResponse()
+		res.Error = true
+		res.Message = "Not Found."
+		return c.Status(fiber.StatusNotFound).JSON(res)
 	})
 }

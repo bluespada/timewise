@@ -15,7 +15,7 @@ func main() {
 	// parsing sysmtem env to here
 
 	app := fiber.New(fiber.Config{})
-	viteAssets := helper.GetViteMetadata("./dist/manifest.json")
+	viteAssets := helper.GetViteMetadata("./web/dist/.vite/manifest.json")
 	if len(viteAssets) > 0 {
 		println("vite assets not found")
 	}
