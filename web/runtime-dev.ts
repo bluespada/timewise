@@ -4,10 +4,17 @@ export default function RuntimeDev(input: { [key: string]: string }) : VitePlugi
     return {
         name: "runtime-dev",
         config(config, env) {
-            config.base = "/assets";
+            config.base = "/assets",
             config.build = {
+                lib: {
+                    entry: input.main,
+                    name: "timewise",
+                    fileName: (format) => `timewise.${format}.js`,
+                },
                 rollupOptions: {
-                    input,
+                    input: {
+                        ...input,
+                    },
                     output: {
                         entryFileNames: 'js/[name].js',
                         assetFileNames: 'css/[name].[ext]'
@@ -16,6 +23,8 @@ export default function RuntimeDev(input: { [key: string]: string }) : VitePlugi
                 },
                 sourcemap: env.mode === "development",
                 manifest: env.mode === "production",
+                minify: env.mode === "production",
+                cssMinify: env.mode === "production",
                 emptyOutDir: true,
                 ...config.build,
             }
