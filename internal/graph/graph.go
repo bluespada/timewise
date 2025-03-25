@@ -15,7 +15,7 @@ import (
 )
 
 // define Schema
-var schema graphql.Schema
+var Schema graphql.Schema
 
 // define GraphQLRequest type
 type GraphQLRequest struct {
@@ -44,7 +44,7 @@ func GraphHandler(c *fiber.Ctx) error {
 
 	// Do GraphQL
 	result := graphql.Do(graphql.Params{
-		Schema:         schema,
+		Schema:         Schema,
 		RequestString:  input.Query,
 		OperationName:  input.OperationName,
 		VariableValues: input.Variables,
@@ -80,7 +80,7 @@ func init() {
 	rootMutation := graphql.ObjectConfig{Name: "RootMutation", Fields: mutation}
 
 	// creating schema.
-	schema, err = graphql.NewSchema(graphql.SchemaConfig{
+	Schema, err = graphql.NewSchema(graphql.SchemaConfig{
 		Query:    graphql.NewObject(rootQuery),
 		Mutation: graphql.NewObject(rootMutation),
 	})

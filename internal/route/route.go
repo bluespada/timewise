@@ -12,6 +12,7 @@ import (
 
 	timewise_config "github.com/bluespada/timewise/internal/config"
 	"github.com/bluespada/timewise/internal/graph"
+	"github.com/bluespada/timewise/internal/graph/playground"
 	papi "github.com/bluespada/timewise/internal/route/api"
 	"github.com/bluespada/timewise/internal/utils/types"
 	"github.com/gofiber/fiber/v2"
@@ -28,6 +29,7 @@ func InitRoute(app *fiber.App) {
 	api.All("*", handleApiNotFound)
 
 	app.All("/graphql", graph.GraphHandler)
+	app.Get("/graphql/playground", playground.HandlerGraphQLPlayground(graph.Schema))
 }
 
 func handleApiInformation(c *fiber.Ctx) error {
