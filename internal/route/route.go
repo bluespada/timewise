@@ -13,7 +13,7 @@ import (
 	timewise_config "github.com/bluespada/timewise/internal/config"
 	"github.com/bluespada/timewise/internal/graph"
 	"github.com/bluespada/timewise/internal/graph/playground"
-	papi "github.com/bluespada/timewise/internal/route/api"
+	public_api "github.com/bluespada/timewise/internal/route/api"
 	"github.com/bluespada/timewise/internal/utils/types"
 	"github.com/gofiber/fiber/v2"
 )
@@ -22,7 +22,7 @@ func InitRoute(app *fiber.App) {
 
 	// initialize api route
 	api := app.Group("/api")
-	papi.InitPublicApiRoute(api)
+	public_api.InitPublicApiRoute(api)
 
 	// handle api information and global api route.
 	api.All("/", handleApiInformation)
