@@ -12,6 +12,15 @@ import (
 	"github.com/graphql-go/handler"
 )
 
+// HandlerGraphQLPlayground returns a new Fiber handler that serves GraphQL Playground.
+// It requires a GraphQL schema as argument.
+//
+// The handler will return a HTML page with a form to input GraphQL query and
+// variables. When the form is submitted, the handler will execute the query
+// against the given schema and return the result in JSON format.
+//
+// The handler will also serve the static files for GraphQL Playground, which are
+// embedded in the binary using the //go:embed directive.
 func HandlerGraphQLPlayground(schema graphql.Schema) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 

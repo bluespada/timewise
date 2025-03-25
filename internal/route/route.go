@@ -22,7 +22,12 @@ func InitRoute(app *fiber.App) {
 
 	// initialize api route
 	api := app.Group("/api")
-	route_api.InitPublicApiRoute(api)
+
+	public_route := api.Group("/public")
+	private_route := api.Group("/private")
+
+	route_api.InitPublicApiRoute(public_route)
+	route_api.InitPrivateRoute(private_route)
 
 	// handle api information and global api route.
 	api.All("/", handleApiInformation)

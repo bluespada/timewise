@@ -14,6 +14,8 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// RunApp is the main entry point for the timewise server. It will start http server
+// with gofiber and initialize all routes.
 func RunApp() {
 	// load dotenv
 	godotenv.Load()

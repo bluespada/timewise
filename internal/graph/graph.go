@@ -24,7 +24,12 @@ type GraphQLRequest struct {
 	Variables     map[string]interface{} `query:"variables"`
 }
 
-// Gofiber GraphQL Handler
+// GraphHandler processes incoming HTTP requests and executes GraphQL queries.
+// It supports both GET and POST methods. For GET requests, it parses query parameters
+// into a GraphQLRequest struct, while for POST requests, it parses the request body.
+// After parsing, it executes the GraphQL query using the defined schema and returns
+// the result in JSON format. It sets the content type to "application/json" and
+// returns an error message with a 500 status code if parsing fails.
 func GraphHandler(c *fiber.Ctx) error {
 	var input GraphQLRequest
 
