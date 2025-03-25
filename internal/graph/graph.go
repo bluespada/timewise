@@ -1,3 +1,9 @@
+// Copyright (c) 2025 Bluespada <pentingmain@gmail.com>
+//
+// This software is licensed under MIT License, please read accompany file copy
+// or read online at https://opensource.org/license/mit
+//
+// This file contains code for GraphQL
 package graph
 
 import (
@@ -8,16 +14,17 @@ import (
 	"github.com/graphql-go/graphql"
 )
 
-var fields graphql.Fields
-
+// define Schema
 var schema graphql.Schema
 
+// define GraphQLRequest type
 type GraphQLRequest struct {
 	Query         string                 `query:"query"`
 	OperationName string                 `query:"operationName"`
 	Variables     map[string]interface{} `query:"variables"`
 }
 
+// Gofiber GraphQL Handler
 func GraphHandler(c *fiber.Ctx) error {
 	var input GraphQLRequest
 
@@ -35,6 +42,7 @@ func GraphHandler(c *fiber.Ctx) error {
 		}
 	}
 
+	// Do GraphQL
 	result := graphql.Do(graphql.Params{
 		Schema:         schema,
 		RequestString:  input.Query,
@@ -46,10 +54,11 @@ func GraphHandler(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(result)
 }
 
+// Initialize graphql and registering the function
 func init() {
 	var err error
 
-	fields = graphql.Fields{
+	fields := graphql.Fields{
 		"test": &graphql.Field{
 			Type: graphtesting.TestQuery,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
@@ -66,10 +75,11 @@ func init() {
 			},
 		},
 	}
-
+	// creating mutation for query and mutation
 	rootQuery := graphql.ObjectConfig{Name: "RootQuery", Fields: fields}
 	rootMutation := graphql.ObjectConfig{Name: "RootMutation", Fields: mutation}
 
+	// creating schema.
 	schema, err = graphql.NewSchema(graphql.SchemaConfig{
 		Query:    graphql.NewObject(rootQuery),
 		Mutation: graphql.NewObject(rootMutation),

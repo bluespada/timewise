@@ -1,4 +1,10 @@
-// code source : https://www.alexedwards.net/blog/how-to-hash-and-verify-passwords-with-argon2-in-go
+// Copyright (c) 2025 Bluespada <pentingmain@gmail.com>
+//
+// This software is licensed under MIT License, please read accompany file copy
+// or read online at https://opensource.org/license/mit
+//
+// This file contains code for Argon2ID
+// reference link : https://www.alexedwards.net/blog/how-to-hash-and-verify-passwords-with-argon2-in-go
 package crypt
 
 import (
@@ -30,6 +36,7 @@ type Argon2ID struct {
 	config Argon2Params
 }
 
+// Argon2ID Parameters
 type Argon2Params struct {
 	Memory      uint32
 	Parallelism uint8
@@ -39,6 +46,7 @@ type Argon2Params struct {
 	Papper      string
 }
 
+// Default Parameters for Argon2ID
 var DefaultArgon2Params = Argon2Params{
 	Memory:      64 * 1024,
 	Parallelism: uint8(runtime.NumCPU()),
@@ -48,12 +56,14 @@ var DefaultArgon2Params = Argon2Params{
 	Papper:      "default",
 }
 
+// Create a Argon2ID object
 func NewArgon(config Argon2Params) *Argon2ID {
 	return &Argon2ID{
 		config: config,
 	}
 }
 
+// Generate Hasing Password with Argon2ID
 func (a *Argon2ID) Hash(password string) (string, error) {
 	salt, err := a.generateRandomBytes(a.config.SaltLength)
 	if err != nil {
@@ -67,6 +77,7 @@ func (a *Argon2ID) Hash(password string) (string, error) {
 	return encodedHash, nil
 }
 
+// Compare Password with Argon2ID
 func (a *Argon2ID) Compare(passwordHash string, password string) (bool, error) {
 
 	p, salt, hash, err := a.decodeHash(passwordHash)
