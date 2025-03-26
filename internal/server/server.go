@@ -7,7 +7,12 @@
 package server
 
 import (
+	"fmt"
+	"log"
+	"os"
+
 	"github.com/bluespada/timewise/internal/route"
+	"github.com/bluespada/timewise/internal/utils/database"
 	"github.com/bytedance/sonic"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -18,7 +23,13 @@ import (
 // with gofiber and initialize all routes.
 func RunApp() {
 	// load dotenv
-	godotenv.Load()
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	// initialize database
+	database.Initialize()
 
 	// initialize gofiber
 	app := fiber.New(fiber.Config{
@@ -33,6 +44,6 @@ func RunApp() {
 	route.InitRoute(app)
 
 	// http listen
-	app.Listen(":8000")
+	app.Listen(fmt.Sprintf(":%s", os.Getenv("APP_PORT")))
 
 }

@@ -13,6 +13,7 @@ import (
 
 // InitPublicApiRoute is a function that will initialize all public api route.
 func InitPublicApiRoute(app fiber.Router) {
+
 	// auth route
 	auth_route := app.Group("/auth")
 	auth_route.Post("/signin", auth_controller.HandleSignIn)
