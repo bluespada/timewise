@@ -10,6 +10,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/bluespada/timewise/internal/repositories"
+	"github.com/bluespada/timewise/internal/utils/database"
 	"github.com/bluespada/timewise/internal/utils/types"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
@@ -28,6 +30,8 @@ type SignInParams struct {
 // 14 days.
 func HandleSignIn(c *fiber.Ctx) error {
 
+	authRepo := repositories.NewAuthRepositories(database.Db)
+
 	res := types.NewApiResponse()
 
 	var params SignInParams
@@ -37,10 +41,17 @@ func HandleSignIn(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(res)
 	}
 
+	auth, err := authRepo.FindByEmail(params.Email)
+	if err != nil {
+		res.Error = true
+		res.Message = "Account Not found."
+		return c.Status(fiber.StatusBadRequest).JSON(res)
+	}
+
 	claims := jwt.MapClaims{
 		"exp":  time.Now().Add(time.Hour * 336).Unix(),
 		"iat":  time.Now().Unix(),
-		"user": params,
+		"user": auth.ID,
 		"sub":  "user",
 	}
 
@@ -52,8 +63,9 @@ func HandleSignIn(c *fiber.Ctx) error {
 		res.Message = err.Error()
 		return c.Status(fiber.StatusInternalServerError).JSON(res)
 	}
-	res.Data = map[string]string{
+	res.Data = map[string]any{
 		"token": t,
+		"auth":  auth,
 	}
 	return c.JSON(res)
 }
