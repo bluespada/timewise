@@ -12,6 +12,7 @@ import (
 	"github.com/bluespada/timewise/internal/utils/types"
 	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 var jwtSecret string
@@ -35,8 +36,11 @@ func InitPrivateRoute(app fiber.Router) {
 	}))
 
 	app.Get("/", func(c *fiber.Ctx) error {
+		user := c.Locals("user").(*jwt.Token)
+		claims := user.Claims.(jwt.MapClaims)
 		res := types.NewApiResponse()
 		res.Message = "You are authenticated"
+		res.Data = claims
 		return c.JSON(res)
 	})
 

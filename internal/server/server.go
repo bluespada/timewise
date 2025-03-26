@@ -11,6 +11,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/bluespada/timewise/internal/model"
 	"github.com/bluespada/timewise/internal/route"
 	"github.com/bluespada/timewise/internal/utils/database"
 	"github.com/bytedance/sonic"
@@ -30,6 +31,14 @@ func RunApp() {
 
 	// initialize database
 	database.Initialize()
+
+	// register the model
+	database.RegisterModels(
+		&model.ModelAddress{},
+		&model.ModelUsers{},
+		&model.ModelAuth{},
+		&model.ModelAuthLog{},
+	)
 
 	// initialize gofiber
 	app := fiber.New(fiber.Config{

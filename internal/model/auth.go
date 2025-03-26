@@ -6,9 +6,14 @@
 // This file is contains gorm model
 package model
 
+type Roles []string
+
 type ModelAuth struct {
 	*Model
-	Email    string `json:"email" gorm:"unique"`
-	Password string `json:"password"`
-	Phone    string `json:"phone" gorm:"unique"`
+	Email    string     `json:"email" gorm:"unique"`
+	Password string     `json:"password"`
+	Phone    string     `json:"phone" gorm:"unique"`
+	UserId   uint       `json:"user_id"`
+	User     ModelUsers `json:"_" gorm:"foreignKey:UserId"`
+	Roles    Roles      `json:"roles" gorm:"type:text[];notnull"`
 }

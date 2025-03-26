@@ -70,6 +70,8 @@ func HandleSignIn(c *fiber.Ctx) error {
 	return c.JSON(res)
 }
 
+// init initialize jwt secret key from environment variable APP_JWT_SECRET.
+// If the variable is not set, it will use default value.
 func init() {
 	if os.Getenv("APP_JWT_SECRET") != "" {
 		jwtSecret = os.Getenv("APP_JWT_SECRET")
