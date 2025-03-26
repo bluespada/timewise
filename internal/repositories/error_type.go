@@ -3,5 +3,5 @@ package repositories
 import "errors"
 
 var (
-	ErrNotFound = errors.New("Could'nt find the data.")
+	ErrNotFound = errors.New("could'nt find the data")
 )
