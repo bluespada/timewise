@@ -6,12 +6,23 @@
 // This file contains testing code schema for GraphQL
 package testing
 
-import "github.com/graphql-go/graphql"
+import (
+	"fmt"
+
+	"github.com/bluespada/timewise/internal/graph/middleware"
+	"github.com/gofiber/fiber/v2"
+	"github.com/graphql-go/graphql"
+)
 
 var testHello = &graphql.Field{
 	Type: graphql.String,
 	Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-		return "World", nil
+		context := p.Context.Value("context").(*fiber.Ctx)
+		claims, err := middleware.ValidateJWT(context)
+		if err != nil {
+			return nil, err
+		}
+		return fmt.Sprintf("%f", claims["user"].(float64)), nil
 	},
 }
 

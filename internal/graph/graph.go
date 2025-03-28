@@ -7,6 +7,7 @@
 package graph
 
 import (
+	"context"
 	"log"
 
 	graphtesting "github.com/bluespada/timewise/internal/graph/schema/testing"
@@ -46,13 +47,15 @@ func GraphHandler(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusInternalServerError).SendString("Cannot parser query parameters: " + err.Error())
 		}
 	}
-
+	ctx := context.Background()
+	ctx = context.WithValue(ctx, "context", c)
 	// Do GraphQL
 	result := graphql.Do(graphql.Params{
 		Schema:         Schema,
 		RequestString:  input.Query,
 		OperationName:  input.OperationName,
 		VariableValues: input.Variables,
+		Context:        ctx,
 	})
 
 	c.Set("Content-Type", "application/json")
