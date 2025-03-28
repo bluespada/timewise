@@ -6,14 +6,16 @@
 // This file is contains gorm model
 package model
 
+import "github.com/lib/pq"
+
 type Roles []string
 
 type ModelAuth struct {
 	*Model
-	Email    string     `json:"email" gorm:"unique"`
-	Password string     `json:"password"`
-	Phone    string     `json:"phone" gorm:"unique"`
-	UserId   uint       `json:"user_id"`
-	User     ModelUsers `json:"_" gorm:"foreignKey:UserId"`
-	Roles    Roles      `json:"roles" gorm:"type:text[];notnull"`
+	Email    string         `json:"email" gorm:"unique"`
+	Password string         `json:"password"`
+	Phone    string         `json:"phone" gorm:"unique"`
+	UserId   uint           `json:"user_id"`
+	User     ModelUsers     `json:"_" gorm:"foreignKey:UserId"`
+	Roles    pq.StringArray `json:"roles" gorm:"type:text[];notnull"`
 }

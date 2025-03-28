@@ -80,6 +80,7 @@ func init() {
 			},
 		},
 	}
+
 	// creating mutation for query and mutation
 	rootQuery := graphql.ObjectConfig{Name: "RootQuery", Fields: fields}
 	rootMutation := graphql.ObjectConfig{Name: "RootMutation", Fields: mutation}

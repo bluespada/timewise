@@ -43,10 +43,10 @@ func handleApiInformation(c *fiber.Ctx) error {
 	res.Message = "Api Information"
 	uptime := time.Since(timewise_config.APP_START_TIME)
 	res.Data = map[string]interface{}{
-		"name":        timewise_config.APP_NAME,
-		"description": "Timewise API for Payroll and Attendance Management System.",
-		"version":     timewise_config.APP_VERSION,
-		"uptime":      fmt.Sprintf("%02dh:%02dm:%02ds", int(uptime.Hours()), int(uptime.Minutes())%60, int(uptime.Seconds())%60),
+		"name":           timewise_config.APP_NAME,
+		"version":        timewise_config.APP_VERSION,
+		"uptime":         fmt.Sprintf("%02dh:%02dm:%02ds", int(uptime.Hours()), int(uptime.Minutes())%60, int(uptime.Seconds())%60),
+		"uptime_seconds": int(uptime.Seconds()),
 	}
 
 	return c.JSON(res)

@@ -17,4 +17,5 @@ func InitPublicApiRoute(app fiber.Router) {
 	// auth route
 	auth_route := app.Group("/auth")
 	auth_route.Post("/signin", auth_controller.HandleSignIn)
+	auth_route.Post("/signup", auth_controller.HandleSignUp)
 }
